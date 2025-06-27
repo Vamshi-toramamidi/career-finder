@@ -20,3 +20,23 @@ def login(email: str = Form(...), password: str = Form(...), db: Session = Depen
     if not user or not pwd_context.verify(password, user.password): # Verify the user exists and the password is correct
         raise HTTPException(status_code=401, detail="Invalid credentials") # Raise an error if credentials are invalid
     return {"message": "Login successful", "user_id": user.id} # Return success message and user ID
+
+@router.post("/signup")
+def signup(
+    firstname: str = Form(...),
+    lastname: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    hashed_password = pwd_context.hash(password) # Hash the password
+    new_user = User(
+        firstname=firstname,
+        lastname=lastname,
+        email=email,
+        password=hashed_password
+    )
+    db.add(new_user) # Add the new user to the database
+    db.commit() # Commit the transaction
+    db.refresh(new_user) # Refresh the user instance to get the new ID
+    return {"message": "User created successfully", "user_id": new_user.id} # Return success message and user ID
