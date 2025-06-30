@@ -1,8 +1,7 @@
-from sqlalchemy import Column, Integer, String, BigInteger, ForeignKey
+from sqlalchemy import Column, Integer, String, BigInteger, ForeignKey, Text, ARRAY, TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy import create_engine
-
 from dotenv import load_dotenv
 import os
 
@@ -16,21 +15,47 @@ Base = declarative_base() # Base class for declarative models - this is where al
 class User(Base):
     __tablename__ = 'users' # Table name in the database
 
-    id = Column(Integer, primary_key=True, index=True) # Primary key column
-    firstname = Column(String, nullable=False) # First name column
-    lastname = Column(String, nullable=False) # Last name column
-    email = Column(String, unique=True, index=True, nullable=False) # Email column with unique constraint
-    password = Column(String, nullable=False) # Password column
+    id = Column(BigInteger, primary_key=True, index=True) # Primary key column
+    firstname = Column(Text, nullable=False) # First name column
+    lastname = Column(Text, nullable=False) # Last name column
+    email = Column(Text, unique=True, index=True, nullable=False) # Email column with unique constraint
+    password = Column(Text, nullable=False) # Password column
+    resume = Column(BigInteger, nullable=True)
+    job_roles = Column(ARRAY(Text), nullable=True)
+    # Relationships
+    sessions = relationship('Session', back_populates='user', cascade="all, delete-orphan")
+    applications = relationship('Application', back_populates='user', cascade="all, delete-orphan")
 
-class UserJobRoles(Base):
-    __tablename__ = 'user_job_roles' # Table name in the database
+class Session(Base):
+    __tablename__ = 'sessions'
 
-    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True, nullable=False) # Foreign key to users table, part of composite PK
-    job_role_id = Column(Integer, ForeignKey('job_roles.id'), primary_key=True, nullable=False) # Foreign key to job_roles table, part of composite PK
+    id = Column(BigInteger, primary_key=True, index=True)
+    user_id = Column(BigInteger, ForeignKey('users.id'), nullable=False)
+    session_token = Column(Text, unique=True, nullable=False, index=True)
+    session_expiry = Column(TIMESTAMP(timezone=True), nullable=False)
+    user = relationship('User', back_populates='sessions')
 
+class Company(Base):
+    __tablename__ = 'companies'
+    id = Column(BigInteger, primary_key=True, index=True)
+    company_name = Column(Text, nullable=False)
+    company_url = Column(Text, nullable=True)
+    jobs = relationship('Job', back_populates='company', cascade="all, delete-orphan")
 
-class job_roles(Base):
-    __tablename__ = 'job_roles' # Table name in the database
+class Job(Base):
+    __tablename__ = 'jobs'
+    id = Column(BigInteger, primary_key=True, index=True)
+    job_title = Column(Text, nullable=False)
+    job_link = Column(Text, nullable=False)
+    company_id = Column(BigInteger, ForeignKey('companies.id'))
+    company = relationship('Company', back_populates='jobs')
+    applications = relationship('Application', back_populates='job', cascade="all, delete-orphan")
 
-    id = Column(Integer, primary_key=True, index=True) # Primary key column
-    job_title = Column(String, nullable=False) # Job title column
+class Application(Base):
+    __tablename__ = 'applications'
+    id = Column(BigInteger, primary_key=True, index=True)
+    user_id = Column(BigInteger, ForeignKey('users.id'))
+    job_id = Column(BigInteger, ForeignKey('jobs.id'))
+    application_date = Column(TIMESTAMP(timezone=True), nullable=False, server_default="now()")
+    user = relationship('User', back_populates='applications')
+    job = relationship('Job', back_populates='applications')
