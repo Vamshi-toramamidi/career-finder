@@ -1,0 +1,83 @@
+{
+  "Software Development": [
+    "Frontend Developer",
+    "Backend Developer",
+    "Full Stack Developer",
+    "Mobile App Developer",
+    "Game Developer",
+    "Embedded Systems Developer",
+    "DevOps Engineer",
+    "Software Engineer in Test (SDET)"
+  ],
+  "Cloud and Infrastructure": [
+    "Cloud Engineer",
+    "Cloud Architect",
+    "Site Reliability Engineer (SRE)",
+    "Infrastructure Engineer",
+    "System Administrator",
+    "Network Engineer"
+  ],
+  "Data and AI": [
+    "Data Scientist",
+    "Data Engineer",
+    "Machine Learning Engineer",
+    "AI Researcher",
+    "Data Analyst",
+    "Business Intelligence Developer",
+    "Database Administrator"
+  ],
+  "Cybersecurity": [
+    "Security Analyst",
+    "Security Engineer",
+    "Security Architect",
+    "Penetration Tester",
+    "Incident Responder",
+    "Ethical Hacker",
+    "Chief Information Security Officer (CISO)"
+  ],
+  "Project and Product Management": [
+    "Project Manager",
+    "Scrum Master",
+    "Product Manager",
+    "Technical Program Manager",
+    "Agile Coach"
+  ],
+  "Quality Assurance and Testing": [
+    "QA Engineer",
+    "Automation Tester",
+    "Manual Tester",
+    "Performance Tester",
+    "Test Architect"
+  ],
+  "UI/UX and Design": [
+    "UI Designer",
+    "UX Designer",
+    "Interaction Designer",
+    "Product Designer",
+    "Visual Designer",
+    "Design Researcher"
+  ],
+  "IT Support and Administration": [
+    "IT Support Specialist",
+    "Help Desk Technician",
+    "Technical Support Engineer",
+    "Desktop Support Engineer",
+    "IT Administrator"
+  ],
+  "Business and Analysis": [
+    "Business Analyst",
+    "Systems Analyst",
+    "IT Consultant",
+    "ERP Consultant"
+  ],
+  "Other Specialized Roles": [
+    "Blockchain Developer",
+    "IoT Engineer",
+    "Computer Vision Engineer",
+    "Robotics Engineer",
+    "Game Designer",
+    "Tech Evangelist",
+    "IT Auditor",
+    "Digital Forensics Analyst"
+  ]
+}
